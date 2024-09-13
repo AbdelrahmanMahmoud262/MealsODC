@@ -11,9 +11,9 @@ import com.androdevelopment.domain.usecase.GetMealsByCategoryUseCase
 import com.androdevelopment.domain.usecase.GetMealsCategoriesUseCase
 import com.androdevelopment.domain.usecase.GetRandomMeanUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.truncate
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
@@ -76,12 +76,17 @@ class MainScreenViewModel @Inject constructor(
                     }
 
                     is Result.Success -> {
+                        Log.e(
+                            "MainScreenViewModel",
+                            "getMealsByCategory: ${result.data.meals.map { it.category }}"
+                        )
                         state.copy(
                             isLoading = false,
                             meals = result.data.meals,
                         )
                     }
                 }
+                cancel()
             }
     }
 

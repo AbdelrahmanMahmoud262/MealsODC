@@ -1,5 +1,6 @@
 package com.androdevelopment.mealsapp.ui.screens.main
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -103,10 +104,8 @@ fun MainScreenContent(
                     Categories(state, onEvent)
                 }
             }
-            items(state.meals, key = { it.mealId }) { meal ->
+            items(state.meals.shuffled(), key = { it.mealId }) { meal ->
                 MealItem(onEvent, meal)
-
-
             }
 
         }
@@ -134,7 +133,7 @@ private fun LazyGridItemScope.MealItem(
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
             .height(300.dp)
-            .animateItemPlacement()
+            .animateItem()
     ) {
 
 

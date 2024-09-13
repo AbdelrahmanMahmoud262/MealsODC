@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
@@ -47,7 +49,7 @@ class MealsRepositoryImpl @Inject constructor(
                 it.forEach {meal->
                     localDataSource.insertMeal(meal)
                 }
-            }.flatMapConcat { localDataSource.getMealsByCategory(category) }
+            }.flatMapLatest { localDataSource.getMealsByCategory(category) }
             .catch { emitAll(localDataSource.getMealsByCategory(category)) }
 
     @OptIn(ExperimentalCoroutinesApi::class)
